@@ -20,7 +20,7 @@
                 <tr>
                     <td colspan="7">
                         <button class="btn btn-default" href="#" @click="addDepartment()">добавить</button>
-                         <p class="message">{{message}}</p>
+                        
                     </td>
                 </tr>
                 
@@ -57,7 +57,7 @@
                   .then((response)=> {
                     this.update();
                     this.message = '';
-                }).catch(this.message = '*Вы пытаетесь удалить отдел с сотруниками');
+                });
             },
             update: function(){
                 this.$root.$emit('update');

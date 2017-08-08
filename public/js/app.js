@@ -42133,7 +42133,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (response) {
                 _this.update();
                 _this.message = '';
-            }).catch(this.message = '*Вы пытаетесь удалить отдел с сотруниками');
+            });
         },
         update: function update() {
             this.$root.$emit('update');
@@ -42188,9 +42188,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.addDepartment()
       }
     }
-  }, [_vm._v("добавить")]), _vm._v(" "), _c('p', {
-    staticClass: "message"
-  }, [_vm._v(_vm._s(_vm.message))])])])], 2)])])
+  }, [_vm._v("добавить")])])])], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', [_c('th', [_vm._v("Название")]), _vm._v(" "), _c('th', [_vm._v("Количество сотрудников")]), _vm._v(" "), _c('th', [_vm._v("Максимальная зарплата")]), _vm._v(" "), _c('th'), _vm._v(" "), _c('th')])
 }]}
