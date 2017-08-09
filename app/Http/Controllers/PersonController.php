@@ -38,14 +38,14 @@ class PersonController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'name'=>'required',
-                'surname'=>'required',
-                'wage'=>'required',
-                'gender'=>'required',
-                'departments'=>'required',
+            'name'=>'required|max:70',
+            'surname'=>'required|max:70',
+            'wage'=>'required|numeric|max:3000000',
+            'gender'=>'required|max:70',
+            'departments'=>'required',
         ]);
         if ($validator->fails()) {
-          return response()->json(['message'=>'Заполните все поля'],500);
+          return response()->json(['message'=>'Правильно заполните все поля'],500);
         }
         $person = new Person;
                 $person->name = $request->name;
@@ -89,14 +89,14 @@ class PersonController extends Controller
     public function update(Request $request, Person $person)
     {
         $validator = Validator::make($request->all(), [
-                'name'=>'required',
-                'surname'=>'required',
-                'wage'=>'required',
-                'gender'=>'required',
-                'departments'=>'required',
+            'name'=>'required|max:70',
+            'surname'=>'required|max:70',
+            'wage'=>'required|numeric|max:3000000',
+            'gender'=>'required|max:70',
+            'departments'=>'required',
         ]);
         if ($validator->fails()) {
-          return response()->json(['message'=>'Заполните все поля'],500);
+          return response()->json(['message'=>'Правильно заполните все поля'],500);
         }
         $person->name = $request->name ?? $person->name;
         $person->surname = $request->surname ?? $person->surname;

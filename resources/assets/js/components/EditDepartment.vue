@@ -25,63 +25,52 @@
     </div>
   </transition>
 </template>
-
 <script>
-   
-    export default {
-        data: function () {
-              return {
-                  name: '',
-                  id:'',
-                  error:'',
-              }
-        },
-        props:['show','departments'],
-        methods:{
-          close: function(){
-            this.$emit('update:show', false);
-            this.error='';
-          },
-          updateData(id){
-            var dept = this.departments.find(function(el){
-                  return el.id === id;
-                });  
-            this.name = dept.name;
-            this.id = dept.id;
-          },
-          edit(){
-            axios({
-                  method:'PUT',
-                  url:'api/departments/'+this.id,
-                  data:{
-                    name:this.name,
-                  }
-                })
-                .then((response)=> {
-                    this.update();
-                    this.close();
-                    this.name='';
-                })
-                .catch((error)=>{
-                  this.showError(error.response.data.message);
-                });
-          },
-          showError:function(error){
-              this.error = '*'+error;
-          },
-          update: function(){
-                this.$root.$emit('update');
-          },
-        },
-        watch:{
-          name:function(){
-              this.name = this.name;
-
+export default {
+    data: function () {
+          return {
+              name: '',
+              id:'',
+              error:'',
           }
-        },
-        mounted() {
-            this.$root.$on('editDepartment', this.updateData);
-        },
-        
-    }
+    },
+    props:['show','departments'],
+    methods:{
+      close: function(){
+        this.$emit('update:show', false);
+        this.error='';
+      },
+      updateData(id){
+        var dept = this.departments.find(function(el){return el.id === id;});  
+        this.name = dept.name;
+        this.id = dept.id;
+      },
+      edit(){
+        axios({
+          method:'PUT',
+          url:'api/departments/'+this.id,
+          data:{
+            name:this.name,
+          }
+        })
+        .then((response)=> {
+          this.update();
+          this.close();
+          this.name='';
+        })
+        .catch((error)=>{
+          this.showError(error.response.data.message);
+        });
+      },
+      showError:function(error){
+        this.error = '*'+error;
+      },
+      update: function(){
+        this.$root.$emit('update');
+      },
+    },
+    mounted() {
+      this.$root.$on('editDepartment', this.updateData);
+    },
+}
 </script>

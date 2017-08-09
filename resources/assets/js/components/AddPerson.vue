@@ -39,67 +39,63 @@
               <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='add()'>Добавить</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
-            </slot>
           </div>
         </div>
       </div>
     </div>
   </transition>
 </template>
-
 <script>
-   
-    export default {
-      data: function () {
-              return {
-                  name: '',
-                  surname:'',
-                  wage:'',
-                  gender:'',
-                  departmentsm:[],
-                  error:'',
-              }
-      },
-      props:['show','departments'],
-        methods:{
-          close: function(){
-            this.$emit('update:show', false)
-            this.name='';
-            this.surname='';
-            this.gender='';
-            this.wage='';
-            this.departmentsm=[];
-            this.error = '';
-          },
-          add:function(){
-            axios({
-                  method:'POST',
-                  url:'api/people',
-                  data:{
-                    name:this.name,
-                    surname:this.surname,
-                    gender:this.gender,
-                    wage:this.wage,
-                    departments:this.departmentsm,
-                  }
-                })
-                  .then((response)=> {
-                    this.update();
-                    this.close();
-                })
-                .catch((error)=>{
-                  this.showError(error.response.data.message);
-                });
-            },
-            showError:function(error){
-              this.error ='*'+error;
-            },
-          update: function(){
-                this.$root.$emit('update');
+export default {
+  data: function () {
+          return {
+            name: '',
+            surname:'',
+            wage:'',
+            gender:'',
+            departmentsm:[],
+            error:'',
           }
         },
-        mounted() {
-           
-        },
-    }
+  props:['show','departments'],
+    methods:{
+      close: function(){
+        this.$emit('update:show', false)
+        this.name='';
+        this.surname='';
+        this.gender='';
+        this.wage='';
+        this.departmentsm=[];
+        this.error = '';
+      },
+      add:function(){
+        axios({
+          method:'POST',
+          url:'api/people',
+          data:{
+            name:this.name,
+            surname:this.surname,
+            gender:this.gender,
+            wage:this.wage,
+            departments:this.departmentsm,
+          }
+        })
+        .then((response)=> {
+          this.update();
+          this.close();
+        })
+        .catch((error)=>{
+          this.showError(error.response.data.message);
+        });
+      },
+      showError:function(error){
+        this.error ='*'+error;
+      },
+      update: function(){
+        this.$root.$emit('update');
+      }
+    },
+    mounted() {
+    },
+}
 </script>

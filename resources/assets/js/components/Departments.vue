@@ -30,39 +30,38 @@
 </template>
 
 <script>
-    export default {
-        data: function () {
-              return {
-                  message: '',
-              }
-          },
-        props:['departments','people','showadd','showedit','error'],
-        mounted() {
-            console.log('Departments mounted.')
-        },
-        methods:{
-            
-            addDepartment: function(){
-                this.$emit('update:showadd', true);
-            },
-            editDepartment: function(id){
-                this.$root.$emit('editDepartment', id);             
-                this.$emit('update:showedit', true);
-            },
-            deleteDepartment: function(id){
-                axios.delete('api/departments/'+id)
-                .then((response)=> {
-                    this.update();
-                    this.message = '';
-                })
-                .catch((error) => {
-                    this.$root.$emit('error',error.response.data);
-                    this.$emit('update:error', true);
-                });
-            },
-            update: function(){
-                this.$root.$emit('update');
+export default {
+    data: function () {
+            return {
+                message: '',
             }
+        },
+    props:['departments','people','showadd','showedit','error'],
+    mounted() {
+        console.log('Departments mounted.')
+    },
+    methods:{
+        addDepartment: function(){
+            this.$emit('update:showadd', true);
+        },
+        editDepartment: function(id){
+            this.$root.$emit('editDepartment', id);             
+            this.$emit('update:showedit', true);
+        },
+        deleteDepartment: function(id){
+            axios.delete('api/departments/'+id)
+            .then((response)=> {
+                this.update();
+                this.message = '';
+            })
+            .catch((error) => {
+                this.$root.$emit('error',error.response.data);
+                this.$emit('update:error', true);
+            });
+        },
+        update: function(){
+            this.$root.$emit('update');
         }
     }
+}
 </script>

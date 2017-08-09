@@ -39,76 +39,70 @@
               <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='edit()'>Редактировать</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
-            </slot>
           </div>
         </div>
       </div>
     </div>
   </transition>
 </template>
-
-
 <script>
-   
-    export default {
-      data: function () {
-              return {
-                  id:'',
-                  name: '',
-                  surname: '',
-                  wage: '',
-                  gender:'',
-                  departmentsm:[],
-                  error:'',
-              }
+export default {
+  data: function () {
+          return {
+            id:'',
+            name: '',
+            surname: '',
+            wage: '',
+            gender:'',
+            departmentsm:[],
+            error:'',
+          }
         },
-        props:['show','departments','people'],
-        methods:{
-          close: function(){
-            this.$emit('update:show', false);
-            this.error = '';
-          },
-          updateData(id){
-            var pers = this.people.find(function(el){
-                  return el.id === id;
-                });  
-            this.id = pers.id;
-            this.name = pers.name;
-            this.surname = pers.surname;
-            this.wage = pers.wage;
-            this.gender = pers.gender;
-            this.departmentsm = pers.departments.map(function(el){return el.id});
-          },
-          edit(){
-             axios({
-                  method:'PUT',
-                  url:'api/people/'+this.id,
-                  data:{
-                    name: this.name,
-                    surname: this.surname,
-                    wage: this.wage,
-                    gender: this.gender,
-                    departments: this.departmentsm,
-                  }
-              })
-              .then((response)=> {
-                this.update();
-                this.close();
-              })
-              .catch((error)=>{
-                  this.showError(error.response.data.message);
-                });
-          },
-          showError:function(error){
-              this.error ='*'+ error;
-            },
-          update: function(){
-                this.$root.$emit('update');
-          },
-        },
-        mounted() {
-            this.$root.$on('editPerson', this.updateData);
-        },
-    }
+    props:['show','departments','people'],
+    methods:{
+      close: function(){
+        this.$emit('update:show', false);
+        this.error = '';
+      },
+      updateData(id){
+        var pers = this.people.find(function(el){return el.id === id;});  
+        this.id = pers.id;
+        this.name = pers.name;
+        this.surname = pers.surname;
+        this.wage = pers.wage;
+        this.gender = pers.gender;
+        this.departmentsm = pers.departments.map(function(el){return el.id});
+      },
+      edit(){
+        axios({
+          method:'PUT',
+          url:'api/people/'+this.id,
+          data:{
+            name: this.name,
+            surname: this.surname,
+            wage: this.wage,
+            gender: this.gender,
+            departments: this.departmentsm,
+          }
+        })
+        .then((response)=> {
+          this.update();
+          this.close();
+        })
+        .catch((error)=>{
+          this.showError(error.response.data.message);
+        });
+      },
+      showError:function(error){
+        this.error ='*'+ error;
+      },
+      update: function(){
+        this.$root.$emit('update');
+      },
+    },
+    mounted() {
+      this.$root.$on('editPerson', this.updateData);
+    },
+}
 </script>
 

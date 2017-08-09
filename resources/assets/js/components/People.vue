@@ -31,38 +31,37 @@
         </table>
     </div>
 </template>
-
 <script>
-    export default {
-        data: function () {
-              return {
-                  message: '',
-              }
-          },
-        props:['departments','people','showadd','showedit'],
-        mounted() {
-            console.log('People mounted.')
+export default {
+    data:   function () {
+                return {
+                    message: '',
+                }
+            },
+    props:['departments','people','showadd','showedit'],
+    mounted() {
+        console.log('People mounted.')
+    },
+    methods:{
+        addPerson: function(){
+            this.$emit('update:showadd', true);
         },
-        methods:{
-            addPerson: function(){
-                this.$emit('update:showadd', true);
-            },
-            editPerson: function(id){
-                this.$root.$emit('editPerson', id);
-                this.$emit('update:showedit', true);
-            },
-            deletePerson: function(id){
-                axios({
-                  method:'DELETE',
-                  url:'api/people/'+id,
-                })
-                  .then((response)=> {
-                    this.update();
-                });
-            },
-            update: function(){
-                this.$root.$emit('update');
-            }
+        editPerson: function(id){
+            this.$root.$emit('editPerson', id);
+            this.$emit('update:showedit', true);
+        },
+        deletePerson: function(id){
+            axios({
+              method:'DELETE',
+              url:'api/people/'+id,
+            })
+            .then((response)=> {
+                this.update();
+            });
+        },
+        update: function(){
+            this.$root.$emit('update');
         }
     }
+}
 </script>

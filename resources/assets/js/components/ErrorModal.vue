@@ -20,28 +20,27 @@
   </transition>
 </template>
 <script>
-    export default {
-       data: function () {
-              return {
-                  name: '',
-                  code:'',
-                  message:'',
-              }
-          },
-        props:['show'],
-        methods:{
-          close: function(){
-            this.$emit('update:show', false)
-          },
-          updateData: function(data){
-            this.message = data.message;
-            this.code = data.code;
-            this.name = data.name;
+export default {
+  data: function () {
+          return {
+              name: '',
+              code:'',
+              message:'',
           }
-        },  
-        mounted() {
-            console.log('Error mounted.');
-            this.$root.$on('error',this.updateData);
         },
+  props:['show'],
+  methods:{
+    close: function(){
+      this.$emit('update:show', false)
+    },
+    updateData: function(data){
+      this.message = data.message;
+      this.code = data.code;
+      this.name = data.name;
     }
+  },  
+  mounted() {
+    this.$root.$on('error',this.updateData);
+  },
+}
 </script>

@@ -18,55 +18,51 @@
               <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='add()'>Добавить</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
-            </slot>
           </div>
         </div>
       </div>
     </div>
   </transition>
 </template>
-
 <script>
-   
-    export default {
-       data: function () {
-              return {
-                  name: '',
-                  error:'',
-              }
-          },
-        props:['show'],
-        methods:{
-          close: function(){
-            this.$emit('update:show', false)
-          },
-          add:function(){
-            axios({
-                  method:'POST',
-                  url:'api/departments',
-                  data:{
-                    name:this.name,
-                  }
-                })
-                  .then((response)=> {
-                    this.update();
-                    this.close();
-                    this.name='';
-                    this.error='';
-                })
-                  .catch((error)=>{
-                  this.showError(error.response.data.message);
-                });
-          },
-          showError:function(error){
-              this.error = '*'+error;
-            },
-           update: function(){
-                this.$root.$emit('update');
+export default {
+    data: function () {
+            return {
+              name: '',
+              error:'',
             }
-        },
-        mounted() {
-           
-        },
-    }
+          },
+    props:['show'],
+    methods:{
+      close: function(){
+        this.$emit('update:show', false)
+      },
+      add:function(){
+        axios({
+          method:'POST',
+          url:'api/departments',
+          data:{
+            name:this.name,
+          }
+        })
+        .then((response)=> {
+          this.update();
+          this.close();
+          this.name='';
+          this.error='';
+        })
+        .catch((error)=>{
+          this.showError(error.response.data.message);
+        });
+      },
+      showError:function(error){
+        this.error = '*'+error;
+      },
+      update: function(){
+        this.$root.$emit('update');
+      }
+    },
+    mounted() {
+    },
+}
 </script>

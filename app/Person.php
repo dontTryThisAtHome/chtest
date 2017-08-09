@@ -29,7 +29,6 @@ class Person extends Model
     }
     public function setDepartmentsAttribute($value)
     {
-        
         $this->departments()->detach();
         $this->departments()->attach($value);
     }

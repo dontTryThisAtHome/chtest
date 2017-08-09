@@ -11,8 +11,6 @@ class Department extends Model
     public function people()
     {
         return $this->belongsToMany(\App\Person::class, 'department_person');
-        dd($this->people());
-
     }
 
      public function getPeopleCountAttribute()

@@ -38,10 +38,10 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'=>'required',
+            'name'=>'required|max:70',
         ]);
         if ($validator->fails()) {
-          return response()->json(['message'=>'Заполните все поля'],500);
+          return response()->json(['message'=>'Правильно заполните все поля'],500);
         }
         $department = new Department;
         $department->name  = $request->name;
@@ -80,10 +80,10 @@ class DepartmentController extends Controller
     public function update(Request $request, Department $department)
     {
         $validator = Validator::make($request->all(), [
-                'name'=>'required',
+            'name'=>'required|max:70',
         ]);
         if ($validator->fails()) {
-          return response()->json(['message'=>'Заполните все поля'],500);
+          return response()->json(['message'=>'Правильно заполните все поля'],500);
         }
         $department->name = $request->name ?? $department->name;
         $department->save();

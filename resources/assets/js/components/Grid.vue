@@ -17,10 +17,9 @@
 </template>
 
 <script>
-    export default {
-        props:['departments','people'],
-        mounted() {
-            console.log('Grid mounted.')
-        }
+export default {
+    props:['departments','people'],
+    mounted() {
     }
+}
 </script>
