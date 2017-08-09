@@ -22,7 +22,8 @@ var Grid = Vue.component('grid', require('./components/Grid.vue')),
     AddDepartment = Vue.component('adddepartment', require('./components/AddDepartment.vue')),
     EditDepartment = Vue.component('editdepartment', require('./components/EditDepartment.vue')),
     AddPerson = Vue.component('addperson', require('./components/AddPerson.vue')),
-    EditPerson = Vue.component('editperson', require('./components/EditPerson.vue'));
+    EditPerson = Vue.component('editperson', require('./components/EditPerson.vue')),
+    ErrorModal = Vue.component('errormodal', require('./components/ErrorModal.vue'));
 
 
 const app = new Vue({
@@ -35,6 +36,7 @@ const app = new Vue({
         'editdepartment':EditDepartment,
         'addperson': AddPerson,
         'editperson':EditPerson,
+        'errormodal':ErrorModal,
     },
     data:{
         departments: [],
@@ -43,6 +45,7 @@ const app = new Vue({
         showEditDepartment: false,
         showAddPerson: false,
         showEditPerson: false,
+        showErrorModal:false,
     },
     methods:{
         update: function(){

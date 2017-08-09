@@ -21,13 +21,14 @@
 				</div>
 		</header>
 		<grid  :departments='departments' :people='people'></grid>
-		<departments  :departments='departments' :people='people' :showadd.sync='showAddDepartment' :showedit.sync='showEditDepartment'>
+		<departments  :departments='departments' :people='people' :showadd.sync='showAddDepartment' :showedit.sync='showEditDepartment' :error.sync='showErrorModal'>
 		</departments>
 		<people :departments='departments' :people='people' :showadd.sync='showAddPerson' :showedit.sync='showEditPerson'></people>
 		<addDepartment :show.sync='showAddDepartment' v-show='showAddDepartment'></addDepartment>
         <editDepartment :departments='departments' :show.sync='showEditDepartment' v-show='showEditDepartment'></editDepartment>
         <addPerson :departments='departments' :show.sync='showAddPerson' v-show='showAddPerson'></addPerson>   
-        <editPerson :departments='departments' :people='people' :show.sync='showEditPerson' v-show='showEditPerson'></editPerson>  
+        <editPerson :departments='departments' :people='people' :show.sync='showEditPerson' v-show='showEditPerson'></editPerson> 
+        <errorModal :show.sync='showErrorModal' v-show='showErrorModal'></errorModal>  
 	</div>
 	
 

@@ -36,6 +36,7 @@
             </form>
           </div>
           <div class="modal-footer">
+              <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='add()'>Добавить</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
             </slot>
@@ -56,6 +57,7 @@
                   wage:'',
                   gender:'',
                   departmentsm:[],
+                  error:'',
               }
       },
       props:['show','departments'],
@@ -67,6 +69,7 @@
             this.gender='';
             this.wage='';
             this.departmentsm=[];
+            this.error = '';
           },
           add:function(){
             axios({
@@ -83,14 +86,20 @@
                   .then((response)=> {
                     this.update();
                     this.close();
+                })
+                .catch((error)=>{
+                  this.showError(error.response.data.message);
                 });
+            },
+            showError:function(error){
+              this.error ='*'+error;
             },
           update: function(){
                 this.$root.$emit('update');
           }
         },
         mounted() {
-            console.log('Popup mounted.')
+           
         },
     }
 </script>

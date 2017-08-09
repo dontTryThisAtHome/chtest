@@ -17962,7 +17962,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(58);
+module.exports = __webpack_require__(61);
 
 
 /***/ }),
@@ -17993,7 +17993,8 @@ var Grid = Vue.component('grid', __webpack_require__(37)),
     AddDepartment = Vue.component('adddepartment', __webpack_require__(46)),
     EditDepartment = Vue.component('editdepartment', __webpack_require__(49)),
     AddPerson = Vue.component('addperson', __webpack_require__(52)),
-    EditPerson = Vue.component('editperson', __webpack_require__(55));
+    EditPerson = Vue.component('editperson', __webpack_require__(55)),
+    ErrorModal = Vue.component('errormodal', __webpack_require__(58));
 
 var app = new Vue({
     el: '#app',
@@ -18004,7 +18005,8 @@ var app = new Vue({
         'adddepartment': AddDepartment,
         'editdepartment': EditDepartment,
         'addperson': AddPerson,
-        'editperson': EditPerson
+        'editperson': EditPerson,
+        'errormodal': ErrorModal
     },
     data: {
         departments: [],
@@ -18012,7 +18014,8 @@ var app = new Vue({
         showAddDepartment: false,
         showEditDepartment: false,
         showAddPerson: false,
-        showEditPerson: false
+        showEditPerson: false,
+        showErrorModal: false
     },
     methods: {
         update: function update() {
@@ -42110,7 +42113,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             message: ''
         };
     },
-    props: ['departments', 'people', 'showadd', 'showedit'],
+    props: ['departments', 'people', 'showadd', 'showedit', 'error'],
     mounted: function mounted() {
         console.log('Departments mounted.');
     },
@@ -42127,12 +42130,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         deleteDepartment: function deleteDepartment(id) {
             var _this = this;
 
-            axios({
-                method: 'DELETE',
-                url: 'api/departments/' + id
-            }).then(function (response) {
+            axios.delete('api/departments/' + id).then(function (response) {
                 _this.update();
                 _this.message = '';
+            }).catch(function (error) {
+                _this.$root.$emit('error', error.response.data);
+                _this.$emit('update:error', true);
             });
         },
         update: function update() {
@@ -42453,12 +42456,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      name: ''
+      name: '',
+      error: ''
     };
   },
   props: ['show'],
@@ -42479,15 +42484,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.update();
         _this.close();
         _this.name = '';
+        _this.error = '';
+      }).catch(function (error) {
+        _this.showError(error.response.data.message);
       });
+    },
+    showError: function showError(error) {
+      this.error = '*' + error;
     },
     update: function update() {
       this.$root.$emit('update');
     }
   },
-  mounted: function mounted() {
-    console.log('Popup mounted.');
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -42539,7 +42548,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
-  }, [_c('button', {
+  }, [_c('p', {
+    staticStyle: {
+      "color": "red"
+    }
+  }, [_vm._v(_vm._s(_vm.error))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
@@ -42636,19 +42649,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       name: '',
-      id: ''
+      id: '',
+      error: ''
     };
   },
   props: ['show', 'departments'],
   methods: {
     close: function close() {
       this.$emit('update:show', false);
+      this.error = '';
     },
     updateData: function updateData(id) {
       var dept = this.departments.find(function (el) {
@@ -42670,9 +42686,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.update();
         _this.close();
         _this.name = '';
+      }).catch(function (error) {
+        _this.showError(error.response.data.message);
       });
     },
 
+    showError: function showError(error) {
+      this.error = '*' + error;
+    },
     update: function update() {
       this.$root.$emit('update');
     }
@@ -42683,7 +42704,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   mounted: function mounted() {
-    console.log('Popup mounted.');
     this.$root.$on('editDepartment', this.updateData);
   }
 });
@@ -42737,7 +42757,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
-  }, [_c('button', {
+  }, [_c('p', {
+    staticStyle: {
+      "color": "red"
+    }
+  }, [_vm._v(_vm._s(_vm.error))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
@@ -42855,6 +42879,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -42864,7 +42889,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       surname: '',
       wage: '',
       gender: '',
-      departmentsm: []
+      departmentsm: [],
+      error: ''
     };
   },
   props: ['show', 'departments'],
@@ -42876,6 +42902,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.gender = '';
       this.wage = '';
       this.departmentsm = [];
+      this.error = '';
     },
     add: function add() {
       var _this = this;
@@ -42893,15 +42920,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this.update();
         _this.close();
+      }).catch(function (error) {
+        _this.showError(error.response.data.message);
       });
+    },
+    showError: function showError(error) {
+      this.error = '*' + error;
     },
     update: function update() {
       this.$root.$emit('update');
     }
   },
-  mounted: function mounted() {
-    console.log('Popup mounted.');
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -43071,7 +43101,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(department.name))])
   }))])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
-  }, [_c('button', {
+  }, [_c('p', {
+    staticStyle: {
+      "color": "red"
+    }
+  }, [_vm._v(_vm._s(_vm.error))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
@@ -43190,6 +43224,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43200,13 +43235,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       surname: '',
       wage: '',
       gender: '',
-      departmentsm: []
+      departmentsm: [],
+      error: ''
     };
   },
   props: ['show', 'departments', 'people'],
   methods: {
     close: function close() {
       this.$emit('update:show', false);
+      this.error = '';
     },
     updateData: function updateData(id) {
       var pers = this.people.find(function (el) {
@@ -43237,15 +43274,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         _this.update();
         _this.close();
+      }).catch(function (error) {
+        _this.showError(error.response.data.message);
       });
     },
 
+    showError: function showError(error) {
+      this.error = '*' + error;
+    },
     update: function update() {
       this.$root.$emit('update');
     }
   },
   mounted: function mounted() {
-    console.log('Popup mounted.');
     this.$root.$on('editPerson', this.updateData);
   }
 });
@@ -43417,7 +43458,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(department.name))])
   }))])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
-  }, [_c('button', {
+  }, [_c('p', {
+    staticStyle: {
+      "color": "red"
+    }
+  }, [_vm._v(_vm._s(_vm.error))]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
@@ -43443,6 +43488,137 @@ if (false) {
 
 /***/ }),
 /* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(59),
+  /* template */
+  __webpack_require__(60),
+  /* styles */
+  null,
+  /* scopeId */
+  null,
+  /* moduleIdentifier (server only) */
+  null
+)
+Component.options.__file = "D:\\xampp\\htdocs\\chtest\\resources\\assets\\js\\components\\ErrorModal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] ErrorModal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-74175010", Component.options)
+  } else {
+    hotAPI.reload("data-v-74175010", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            name: '',
+            code: '',
+            message: ''
+        };
+    },
+    props: ['show'],
+    methods: {
+        close: function close() {
+            this.$emit('update:show', false);
+        },
+        updateData: function updateData(data) {
+            this.message = data.message;
+            this.code = data.code;
+            this.name = data.name;
+        }
+    },
+    mounted: function mounted() {
+        console.log('Error mounted.');
+        this.$root.$on('error', this.updateData);
+    }
+});
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('transition', {
+    attrs: {
+      "name": "modal"
+    }
+  }, [_c('div', {
+    staticClass: "modal-mask"
+  }, [_c('div', {
+    staticClass: "modal-wrapper"
+  }, [_c('div', {
+    staticClass: "modal-container"
+  }, [_c('div', {
+    staticClass: "modal-header"
+  }, [_c('h3', [_vm._v("Ошибка")])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-body"
+  }, [_c('h4', [_vm._v(_vm._s(_vm.code))]), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.name))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.message))])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-footer"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    on: {
+      "click": function($event) {
+        _vm.close()
+      }
+    }
+  }, [_vm._v("ОК")])])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-74175010", module.exports)
+  }
+}
+
+/***/ }),
+/* 61 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

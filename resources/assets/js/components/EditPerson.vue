@@ -36,6 +36,7 @@
             </form>
           </div>
           <div class="modal-footer">
+              <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='edit()'>Редактировать</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
             </slot>
@@ -58,12 +59,14 @@
                   wage: '',
                   gender:'',
                   departmentsm:[],
+                  error:'',
               }
         },
         props:['show','departments','people'],
         methods:{
           close: function(){
-            this.$emit('update:show', false)
+            this.$emit('update:show', false);
+            this.error = '';
           },
           updateData(id){
             var pers = this.people.find(function(el){
@@ -91,14 +94,19 @@
               .then((response)=> {
                 this.update();
                 this.close();
-              });
+              })
+              .catch((error)=>{
+                  this.showError(error.response.data.message);
+                });
           },
+          showError:function(error){
+              this.error ='*'+ error;
+            },
           update: function(){
                 this.$root.$emit('update');
           },
         },
         mounted() {
-            console.log('Popup mounted.');
             this.$root.$on('editPerson', this.updateData);
         },
     }

@@ -36,7 +36,7 @@
                   message: '',
               }
           },
-        props:['departments','people','showadd','showedit'],
+        props:['departments','people','showadd','showedit','error'],
         mounted() {
             console.log('Departments mounted.')
         },
@@ -49,14 +49,15 @@
                 this.$root.$emit('editDepartment', id);             
                 this.$emit('update:showedit', true);
             },
-             deleteDepartment: function(id){
-                axios({
-                  method:'DELETE',
-                  url:'api/departments/'+id,
-                })
-                  .then((response)=> {
+            deleteDepartment: function(id){
+                axios.delete('api/departments/'+id)
+                .then((response)=> {
                     this.update();
                     this.message = '';
+                })
+                .catch((error) => {
+                    this.$root.$emit('error',error.response.data);
+                    this.$emit('update:error', true);
                 });
             },
             update: function(){

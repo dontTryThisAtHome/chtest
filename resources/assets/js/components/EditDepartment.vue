@@ -15,6 +15,7 @@
               </form>
           </div>
           <div class="modal-footer">
+              <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='edit()'>Редактировать</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
             </slot>
@@ -32,12 +33,14 @@
               return {
                   name: '',
                   id:'',
+                  error:'',
               }
         },
         props:['show','departments'],
         methods:{
           close: function(){
-            this.$emit('update:show', false)
+            this.$emit('update:show', false);
+            this.error='';
           },
           updateData(id){
             var dept = this.departments.find(function(el){
@@ -54,11 +57,17 @@
                     name:this.name,
                   }
                 })
-                  .then((response)=> {
+                .then((response)=> {
                     this.update();
                     this.close();
                     this.name='';
+                })
+                .catch((error)=>{
+                  this.showError(error.response.data.message);
                 });
+          },
+          showError:function(error){
+              this.error = '*'+error;
           },
           update: function(){
                 this.$root.$emit('update');
@@ -71,7 +80,6 @@
           }
         },
         mounted() {
-            console.log('Popup mounted.');
             this.$root.$on('editDepartment', this.updateData);
         },
         

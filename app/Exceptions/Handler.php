@@ -44,7 +44,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if ($exception instanceof \Illuminate\Database\QueryException){
+            $code = $exception->getCode();
+            if ($code == 23000) $message = 'Невозможно удалить объект';
+            return response()->json(['name'=>'QueryException','message' => $message, 'code'=>$code], 500);
+        }
     }
 
     /**

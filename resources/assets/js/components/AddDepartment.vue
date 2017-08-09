@@ -15,6 +15,7 @@
               </form>
           </div>
           <div class="modal-footer">
+              <p style="color:red;">{{error}}</p>
               <button class="btn btn-default" @click='add()'>Добавить</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
             </slot>
@@ -31,6 +32,7 @@
        data: function () {
               return {
                   name: '',
+                  error:'',
               }
           },
         props:['show'],
@@ -50,14 +52,21 @@
                     this.update();
                     this.close();
                     this.name='';
+                    this.error='';
+                })
+                  .catch((error)=>{
+                  this.showError(error.response.data.message);
                 });
           },
+          showError:function(error){
+              this.error = '*'+error;
+            },
            update: function(){
                 this.$root.$emit('update');
             }
         },
         mounted() {
-            console.log('Popup mounted.')
+           
         },
     }
 </script>

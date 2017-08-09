@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Person;
+use Validator;
 use Illuminate\Http\Request;
 
 class PersonController extends Controller
@@ -36,6 +37,16 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+                'name'=>'required',
+                'surname'=>'required',
+                'wage'=>'required',
+                'gender'=>'required',
+                'departments'=>'required',
+        ]);
+        if ($validator->fails()) {
+          return response()->json(['message'=>'Заполните все поля'],500);
+        }
         $person = new Person;
                 $person->name = $request->name;
                 $person->surname = $request->surname;
@@ -43,7 +54,7 @@ class PersonController extends Controller
                 $person->gender = $request->gender;
                 $person->save();
                 $person->departments = $request->departments;
-            return response()->json(['success'=>'true']);
+        return response()->json(['success'=>'true']);
     }
 
     /**
@@ -77,6 +88,16 @@ class PersonController extends Controller
      */
     public function update(Request $request, Person $person)
     {
+        $validator = Validator::make($request->all(), [
+                'name'=>'required',
+                'surname'=>'required',
+                'wage'=>'required',
+                'gender'=>'required',
+                'departments'=>'required',
+        ]);
+        if ($validator->fails()) {
+          return response()->json(['message'=>'Заполните все поля'],500);
+        }
         $person->name = $request->name ?? $person->name;
         $person->surname = $request->surname ?? $person->surname;
         $person->wage = $request->wage ?? $person->wage;

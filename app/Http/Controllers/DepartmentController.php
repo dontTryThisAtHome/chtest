@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Department;
+use Validator;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -36,6 +37,12 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name'=>'required',
+        ]);
+        if ($validator->fails()) {
+          return response()->json(['message'=>'Заполните все поля'],500);
+        }
         $department = new Department;
         $department->name  = $request->name;
         $department->save();
@@ -72,6 +79,12 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
+        $validator = Validator::make($request->all(), [
+                'name'=>'required',
+        ]);
+        if ($validator->fails()) {
+          return response()->json(['message'=>'Заполните все поля'],500);
+        }
         $department->name = $request->name ?? $department->name;
         $department->save();
     }
