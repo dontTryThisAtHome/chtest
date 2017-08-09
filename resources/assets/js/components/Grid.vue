@@ -9,7 +9,7 @@
             <tbody>
                 <tr v-for='person in people'>
                     <th>{{person.name}}</th>
-                    <td v-for='element in person.deptRelations'>{{element}}</td>
+                    <td v-for='element in person.deptRelations' v-html="element"></td>
                 </tr>
             </tbody>
         </table>

@@ -42017,7 +42017,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('th', [_vm._v(_vm._s(department.name))])
   })], 2), _vm._v(" "), _c('tbody', _vm._l((_vm.people), function(person) {
     return _c('tr', [_c('th', [_vm._v(_vm._s(person.name))]), _vm._v(" "), _vm._l((person.deptRelations), function(element) {
-      return _c('td', [_vm._v(_vm._s(element))])
+      return _c('td', {
+        domProps: {
+          "innerHTML": _vm._s(element)
+        }
+      })
     })], 2)
   }))])])
 },staticRenderFns: []}

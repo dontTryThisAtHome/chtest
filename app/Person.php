@@ -22,7 +22,7 @@ class Person extends Model
     {
         $departments = \App\Department::where('active',true)->get()->pluck('id');
         foreach ($departments as  $deptId) {
-            if ($this->departments->contains('id', $deptId)) $deptRelations[$deptId] = '1';
+            if ($this->departments->contains('id', $deptId)) $deptRelations[$deptId] = '&#10003;';
             else $deptRelations[$deptId] = ' ';
         }
         return collect($deptRelations);   
