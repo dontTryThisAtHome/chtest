@@ -25,7 +25,6 @@ var Grid = Vue.component('grid', require('./components/Grid.vue')),
     EditPerson = Vue.component('editperson', require('./components/EditPerson.vue')),
     ErrorModal = Vue.component('errormodal', require('./components/ErrorModal.vue'));
 
-
 const app = new Vue({
     el: '#app',
     components:{
@@ -56,7 +55,6 @@ const app = new Vue({
                 this.people = response.data;
             });
         },
-
     },
     created(){
         this.update();
@@ -65,5 +63,5 @@ const app = new Vue({
         this.$root.$on('update',this.update)
     }
 });
-window.app = app;
+
 

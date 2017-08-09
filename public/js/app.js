@@ -41994,9 +41994,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['departments', 'people'],
-    mounted: function mounted() {
-        console.log('Grid mounted.');
-    }
+    mounted: function mounted() {}
 });
 
 /***/ }),
@@ -42123,7 +42121,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-
         addDepartment: function addDepartment() {
             this.$emit('update:showadd', true);
         },
@@ -42253,7 +42250,6 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
 //
 //
 //
@@ -42459,9 +42455,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -42653,8 +42646,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -42700,11 +42691,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     update: function update() {
       this.$root.$emit('update');
-    }
-  },
-  watch: {
-    name: function name() {
-      this.name = this.name;
     }
   },
   mounted: function mounted() {
@@ -42882,9 +42868,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43226,10 +43209,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -43559,28 +43538,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            name: '',
-            code: '',
-            message: ''
-        };
+  data: function data() {
+    return {
+      name: '',
+      code: '',
+      message: ''
+    };
+  },
+  props: ['show'],
+  methods: {
+    close: function close() {
+      this.$emit('update:show', false);
     },
-    props: ['show'],
-    methods: {
-        close: function close() {
-            this.$emit('update:show', false);
-        },
-        updateData: function updateData(data) {
-            this.message = data.message;
-            this.code = data.code;
-            this.name = data.name;
-        }
-    },
-    mounted: function mounted() {
-        console.log('Error mounted.');
-        this.$root.$on('error', this.updateData);
+    updateData: function updateData(data) {
+      this.message = data.message;
+      this.code = data.code;
+      this.name = data.name;
     }
+  },
+  mounted: function mounted() {
+    this.$root.$on('error', this.updateData);
+  }
 });
 
 /***/ }),
