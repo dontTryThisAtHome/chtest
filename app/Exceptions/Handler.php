@@ -44,10 +44,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Illuminate\Database\QueryException){
+        if ($exception instanceof \App\Exceptions\DepartmentsException){
+            $message = $exception->getMessage();
             $code = $exception->getCode();
-            if ($code == 23000) $message = 'Невозможно удалить объект';
-            return response()->json(['name'=>'QueryException','message' => $message, 'code'=>$code], 500);
+            return response()->json(['name'=>'DepartmentsException', 'message' => $message, 'code'=>$code], 500);
         }
     }
 

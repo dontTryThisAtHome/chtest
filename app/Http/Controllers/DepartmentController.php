@@ -97,6 +97,9 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
+        if ($department->people()->count()){
+            throw \App\Exceptions\DepartmentsException::hasPeople();
+        } 
         $department->delete();
     }
 }

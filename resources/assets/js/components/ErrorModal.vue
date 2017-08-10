@@ -7,8 +7,8 @@
             <h3>Ошибка</h3>
           </div>
           <div class="modal-body">
-              <h4>{{code}}</h4>
-              <h4>{{name}}</h4>
+              <h4>CODE: {{code}}</h4>
+              <h4>NAME: {{name}}</h4>
               <p>{{message}}</p>
           </div>
           <div class="modal-footer">
