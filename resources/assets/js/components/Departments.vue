@@ -19,7 +19,7 @@
                 </tr>
                 <tr>
                     <td colspan="7">
-                        <button class="btn btn-default" href="#" @click="addDepartment()">добавить</button>
+                        <button class="btn btn-default" href="#" @click="addDepartment()" >добавить</button>
                         
                     </td>
                 </tr>

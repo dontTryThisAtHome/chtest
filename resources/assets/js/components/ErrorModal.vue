@@ -1,6 +1,6 @@
 <template>
-  <transition  name="modal" >
-    <div class="modal-mask">
+  <transition  name="modal">
+    <div class="modal-mask" >
       <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
@@ -12,7 +12,7 @@
               <p>{{message}}</p>
           </div>
           <div class="modal-footer">
-              <button class="btn btn-default" @click='close()'>ОК</button>
+              <button class="btn btn-default"  @click='close()' ref='button'>ОК</button>
           </div>
         </div>
       </div>
@@ -28,6 +28,11 @@ export default {
               message:'',
           }
         },
+  watch:{
+    show:function(){
+      this.$refs.button.focus();
+    }
+  },
   props:['show'],
   methods:{
     close: function(){
@@ -41,6 +46,12 @@ export default {
   },  
   mounted() {
     this.$root.$on('error',this.updateData);
+    document.addEventListener("keydown", (e) => {
+      if (this.show && (e.keyCode == 27 )) {
+        this.close();
+      }
+    });
   },
+  
 }
 </script>

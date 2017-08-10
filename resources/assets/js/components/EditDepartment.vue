@@ -7,16 +7,16 @@
             <h3>Редактировать отдел</h3>
           </div>
           <div class="modal-body">
-              <form>
+              <form id='editDept' v-on:submit.prevent='edit()'>
                 <div class="form-group">
                   <label for="addDeptName">Название</label>
-                  <input type="text" class="form-control" id='addDeptName' placeholder="Название" v-model='name'>
+                  <input type="text" class="form-control" id='addDeptName' placeholder="Название" v-model='name' ref='name'>
                 </div>
               </form>
           </div>
           <div class="modal-footer">
               <p style="color:red;">{{error}}</p>
-              <button class="btn btn-default" @click='edit()'>Редактировать</button>
+              <button type='submit' form='editDept' class="btn btn-default" >Редактировать</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
             </slot>
           </div>
@@ -33,6 +33,11 @@ export default {
               id:'',
               error:'',
           }
+    },
+    watch:{
+      show:function(){
+        this.$refs.name.focus();
+      }
     },
     props:['show','departments'],
     methods:{
@@ -71,6 +76,11 @@ export default {
     },
     mounted() {
       this.$root.$on('editDepartment', this.updateData);
+      document.addEventListener("keydown", (e) => {
+        if (this.show && (e.keyCode == 27 )) {
+        this.close();
+        }
+      });
     },
 }
 </script>

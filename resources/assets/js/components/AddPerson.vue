@@ -7,10 +7,10 @@
             <h3>Добавить сотрудника</h3>
           </div>
           <div class="modal-body">
-            <form>
+            <form id='addPerson' v-on:submit.prevent='add()'>
               <div class="form-group">
                 <label for="addPersName">Имя</label>
-                <input type="text" class="form-control" id='addPersName' placeholder="Имя" v-model='name'>
+                <input type="text" class="form-control" id='addPersName' placeholder="Имя" v-model='name' ref='name'>
               </div>
               <div class="form-group">
                 <label for="addPersSurmame">Фимилия</label>
@@ -37,7 +37,7 @@
           </div>
           <div class="modal-footer">
               <p style="color:red;">{{error}}</p>
-              <button class="btn btn-default" @click='add()'>Добавить</button>
+              <button tupe='submit' form='addPerson' class="btn btn-default">Добавить</button>
               <button class="btn btn-default" @click='close()'>Отмена</button>
           </div>
         </div>
@@ -57,6 +57,11 @@ export default {
             error:'',
           }
         },
+  watch:{
+    show:function(){
+      this.$refs.name.focus();
+    }
+  },
   props:['show','departments'],
     methods:{
       close: function(){
@@ -96,6 +101,11 @@ export default {
       }
     },
     mounted() {
+      document.addEventListener("keydown", (e) => {
+        if (this.show && (e.keyCode == 27 )) {
+        this.close();
+        }
+      });
     },
 }
 </script>
