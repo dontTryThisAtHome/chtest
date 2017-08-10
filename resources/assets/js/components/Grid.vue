@@ -8,7 +8,7 @@
             </thead>
             <tbody>
                 <tr v-for='person in people'>
-                    <th>{{person.name}}</th>
+                    <th>{{person.name+" "}}{{person.surname}}</th>
                     <td v-for='element in person.deptRelations' v-html="element"></td>
                 </tr>
             </tbody>
