@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,8 +12,9 @@
 |
 */
 
-Route::get('/',function(){
-	
+Route::get('/',function(Request $request){
+	Log::info($request->ip());
+	Log::info($request->userAgent());
 	return view('index');
 });
 

@@ -96,7 +96,7 @@ class DepartmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Department $department)
-    {
+    {   
         if ($department->people()->count()){
             throw \App\Exceptions\DepartmentsException::hasPeople();
         } 
