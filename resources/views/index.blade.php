@@ -30,6 +30,6 @@
         <editPerson :departments='departments' :people='people' :show.sync='showEditPerson' v-show='showEditPerson'></editPerson> 
         <errorModal :show.sync='showErrorModal' v-show='showErrorModal'></errorModal>  
 	</div>
-	<script src="{{asset('js/app.js')}}"></script>
+	<script src="{{asset('js/app.js?v=prod1')}}"></script>
 </body>
 </html>
