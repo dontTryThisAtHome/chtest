@@ -18037,6 +18037,11 @@ var app = new Vue({
     }
 });
 
+$('a[href*=\\#]').on('click', function (event) {
+    event.preventDefault();
+    $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 500);
+});
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
